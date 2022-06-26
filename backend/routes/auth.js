@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/Users");
 const bcrypt = require("bcryptjs");
-
+const jwt = require("jsonwebtoken");
+const jwt_secret = "pradeepkumarswain";
 const { body, validationResult } = require("express-validator");
 router.post("/signup", [body("name", "Name should be min 3 chars long").isLength({ min: 3 }), body("email", "Enter a valid email").isEmail(), body("password", "Password should be min 5 chars long").isLength({ min: 5 })], async (req, res) => {
   const errors = validationResult(req);
@@ -23,7 +24,45 @@ router.post("/signup", [body("name", "Name should be min 3 chars long").isLength
       email: req.body.email,
       password: secPass,
     });
-    res.json(user);
+
+    const data = {
+      user: {
+        id: user.id,
+      },
+    };
+    const authtoken = jwt.sign(data, jwt_secret);
+
+    res.json({ authtoken });
+  } catch (err) {
+    console.error(err.message);
+    res.json({ error: "Please enter a unique value for email", message: err.message });
+  }
+});
+
+router.post("/login", [body("email", "Enter a valid email").isEmail(), body("password", "Password should not be blank").exists()], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  try {
+    let user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(400).json({ error: "Please login with correct credential" });
+    }
+    // verifying password
+    const passwordCompare = await bcrypt.compare(req.body.password, user.password);
+    if (!passwordCompare) {
+      return res.status(400).json({ error: "Please login with correct credential" });
+    }
+
+    const data = {
+      user: {
+        id: user.id,
+      },
+    };
+    const authtoken = jwt.sign(data, jwt_secret);
+
+    res.json({ authtoken });
   } catch (err) {
     console.error(err.message);
     res.json({ error: "Please enter a unique value for email", message: err.message });
