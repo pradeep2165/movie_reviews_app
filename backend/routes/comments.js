@@ -1,12 +1,11 @@
 const express = require("express");
-const movies = require("../models/movies");
 const router = express.Router();
-const Movies = require("../models/movies");
+const Comments = require("../models/Comments");
 
-router.get("/allMovies", async (req, res) => {
+router.get("/allComments", async (req, res) => {
   try {
-    const movies = await Movies.find().limit(21);
-    res.json(movies);
+    const Comments = await Comments.find({ movie_id: "*" }).limit(21);
+    res.json(Comments);
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Internal Sever Error Occured");
