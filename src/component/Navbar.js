@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import movieContext from "./context/movie/movieContext";
 
 export default function Navbar() {
-  const { payLoading, setMovies } = useContext(movieContext);
+  const { payLoading, setMovies, setMoviesCount } = useContext(movieContext);
   const [data, setData] = useState({
     content: "",
     text: "",
@@ -22,6 +22,7 @@ export default function Navbar() {
 
   const handelSubmit =  () => {
     setMovies([])
+    setMoviesCount(0)
      payLoading(data);
      navigate("/", { replace: true });
     setData({ content: "", page: 0 });

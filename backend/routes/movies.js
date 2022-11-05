@@ -51,7 +51,6 @@ router.get("/allMoviesSearch", async (req, res) => {
 
     if (req.header("name")) {
       searchTitle = req.header("name");
-      console.log(searchTitle);
       SearchMovies = await Movies.aggregate([
         {
           $match: {
@@ -62,8 +61,8 @@ router.get("/allMoviesSearch", async (req, res) => {
         },
       ])
         .sort({ year: -1 })
-        .limit(20)
-        .skip(page * 20);
+        .skip(page * 20)
+        .limit(20);
       documentCount = await Movies.aggregate([
         {
           $match: {
@@ -89,8 +88,8 @@ router.get("/allMoviesSearch", async (req, res) => {
         },
       ])
         .sort({ year: -1 })
-        .limit(20)
-        .skip(page * 20);
+        .skip(page * 20)
+        .limit(20);
       documentCount = await Movies.aggregate([
         {
           $match: {
@@ -105,7 +104,6 @@ router.get("/allMoviesSearch", async (req, res) => {
       ]);
     } else if (req.header("country")) {
       searchCountry = req.header("country");
-      console.log("searchCountry");
       SearchMovies = await Movies.aggregate([
         {
           $match: {
@@ -116,8 +114,8 @@ router.get("/allMoviesSearch", async (req, res) => {
         },
       ])
         .sort({ year: -1 })
-        .limit(20)
-        .skip(page * 20);
+        .skip(page * 20)
+        .limit(20);
       documentCount = await Movies.aggregate([
         {
           $match: {
@@ -143,8 +141,8 @@ router.get("/allMoviesSearch", async (req, res) => {
         },
       ])
         .sort({ year: -1 })
-        .limit(20)
-        .skip(page * 20);
+        .skip(page * 20)
+        .limit(20);
       documentCount = await Movies.aggregate([
         {
           $match: {
@@ -160,8 +158,8 @@ router.get("/allMoviesSearch", async (req, res) => {
     } else {
       SearchMovies = await Movies.find()
         .sort({ year: -1 })
-        .limit(20)
-        .skip(page * 20);
+        .skip(page * 20)
+        .limit(20);
 
       documentCount = await Movies.aggregate([
         {

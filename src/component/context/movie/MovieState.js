@@ -13,22 +13,7 @@ const MovieState = (props) => {
     content: "",
     text: "",
   });
-  //Get all movies
-  // const getAllMovies = async (data) => {
-  //   console.log(data);
-  //   const response = await fetch(`${host}/api/movies/allMovies`, {
-  //     method: "GET", // *GET, POST, PUT, DELETE, etc.
 
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       page: data.page,
-  //     },
-  //   });
-
-  //   const json = await response.json();
-  //   setMovies(movies.concat(json[0].movies));
-  //   setMoviesCount(json[1].documentCount);
-  // };
   const payLoading = async (data) => {
     setPayload({ ...payload, ...data });    
   };
@@ -54,7 +39,7 @@ const MovieState = (props) => {
     } else if (data.text === "genres") {
       genres = data.content;
     }
-    console.log(name, country, cast, genres, data.page);
+    
     const response = await fetch(`${host}/api/movies/allMoviesSearch`, {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
       headers: {
@@ -71,7 +56,7 @@ const MovieState = (props) => {
 
     setMovies((movies)=> movies.concat(json[0].movies));
     setMoviesCount(json[1][0].id);
-    console.log(movies)
+    
   };
   ;
 
@@ -125,7 +110,7 @@ const MovieState = (props) => {
   };
   
   return (
-    <MovieContext.Provider value={{ movies, setMovies, moviesCount, movieDetails, setMovieDetails, getAllComments, movieComments, setMovieComments, addComment, deleteComment, getMovieBySearch, payLoading }}>{props.children}</MovieContext.Provider>
+    <MovieContext.Provider value={{ movies, setMovies, moviesCount, setMoviesCount, movieDetails, setMovieDetails, getAllComments, movieComments, setMovieComments, addComment, deleteComment, getMovieBySearch, payLoading }}>{props.children}</MovieContext.Provider>
   );
 };
 export default MovieState;
