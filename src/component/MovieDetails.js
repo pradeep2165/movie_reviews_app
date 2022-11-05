@@ -1,11 +1,17 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import movieContext from "./context/movie/movieContext";
 import MovieComments from "./MovieComments";
 import NewComment from "./NewComment";
 
 export default function MovieDetails() {
   const movie_context = useContext(movieContext);
-  const { movieDetails, getAllComments, movieComments } = movie_context;
+  const { movieDetails, getAllComments, movieComments, setMovies, setMoviesCount, payLoading } = movie_context;
+  const [data, setData] = useState({
+    content: "",
+    text: "",
+    page: 0,
+  });
+  
   if (!movieDetails) {
     console.log("not found");
   }
@@ -13,7 +19,14 @@ export default function MovieDetails() {
     getAllComments(movieDetails._id);
     // eslint-disable-next-line
   }, []);
-
+  
+  const handleClick=(value, txt)=>{
+    setData({ ...data, text:txt, content:value});
+    setMovies([])
+    setMoviesCount(0)
+     payLoading(data);
+  }
+  console.log(data)
   return (
     <div className="container">
       <hr className="text-white" />
@@ -72,9 +85,9 @@ export default function MovieDetails() {
                 <p className="text-white">Genres</p>
                 {movieDetails.genres.map((item, index) => {
                   return (
-                    <a href="/" className="mx-1 btn btn-sm btn-dark" key={index}>
+                    <button className="mx-1 btn btn-sm btn-dark" key={index} onClick={()=>handleClick(item, 'genres')}>
                       {item}
-                    </a>
+                    </button>
                   );
                 })}
               </div>
@@ -84,9 +97,9 @@ export default function MovieDetails() {
                 <p className="text-white">Cast</p>
                 {movieDetails.cast.map((item, index) => {
                   return (
-                    <a href="/" className="mx-1 my-1 btn btn-sm btn-success" key={index}>
+                    <button className="mx-1 my-1 btn btn-sm btn-success" key={index} onClick={()=>handleClick(item, 'cast')}>
                       {item}
-                    </a>
+                    </button>
                   );
                 })}
               </div>

@@ -56,7 +56,7 @@ const MovieState = (props) => {
 
     setMovies((movies)=> movies.concat(json[0].movies));
     setMoviesCount(json[1][0].id);
-    
+    console.log(movies)    
   };
   ;
 
