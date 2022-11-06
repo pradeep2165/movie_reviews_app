@@ -1,10 +1,18 @@
 import React from "react";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import movieContext from "./context/movie/movieContext";
 
-export default function Movie(props) {
-  const movie = props.movie;
+export default function Movie({movie}) {
+  const { setMovieDetails } = useContext(movieContext);
+  const navigate = useNavigate();
+  function handleClick(id) {
+    setMovieDetails(id);
+    navigate("/movies/id", { replace: false });
+  }
   return (
     <div className="card bg-dark m-auto">
-      <img src={movie.poster} className="card-img-top p-2" alt="" style={{ height: "18rem" }} />
+      <img src={movie.poster} className="card-img-top p-2" alt="" style={{ height: "18rem" }} onClick={() => handleClick(movie)}/>
       <div className="card-body d-flex justify-content-between flex-column" style={{ height: "230px", overflow: "hidden" }}>
         <div>
           <h5 className="card-title text-success fs-6 text-center">{movie.title}</h5>

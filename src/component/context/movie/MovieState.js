@@ -18,6 +18,7 @@ const MovieState = (props) => {
     setPayload({ ...payload, ...data });    
   };
 
+  console.log(payload);
   
   useEffect(() => {
     getMovieBySearch(payload);

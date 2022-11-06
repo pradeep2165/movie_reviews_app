@@ -2,13 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import movieContext from "./context/movie/movieContext";
 import Movie from "./Movie";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useNavigate } from "react-router-dom";
 
 export default function MoviesLibrary() {
   const context = useContext(movieContext);
   const { movies, moviesCount, setMovieDetails, payLoading } = context;
   const [page, setPage] = useState(0);
-  const navigate = useNavigate();
+  
 
   useEffect(() => {
     payLoading({page});
@@ -17,14 +16,10 @@ export default function MoviesLibrary() {
 
   const fetchMoreData = () => {
     setPage((page)=>(page + 1));
-    
   };
 
 
-  function handleClick(id) {
-    setMovieDetails(id);
-    navigate("/movies/id", { replace: false });
-  }
+  console.log(movies.length, moviesCount)
   return (
     <InfiniteScroll dataLength={movies.length} next={fetchMoreData} hasMore={moviesCount !== movies.length} loader={<h4>Loading...</h4>}>
       {!movies.length &&<h1 className="text-center text-white">Sorry Try Something else</h1>}
@@ -33,7 +28,7 @@ export default function MoviesLibrary() {
           {movies.map((movie, index) => {
             return (
               movie.poster && (
-                <div key={index} className="col-md-3" onClick={() => handleClick(movie)}>
+                <div key={index} className="col-md-3">
                   <Movie movie={movie} />
                 </div>
               )

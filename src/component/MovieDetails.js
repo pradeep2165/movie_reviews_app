@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import movieContext from "./context/movie/movieContext";
 import MovieComments from "./MovieComments";
 import NewComment from "./NewComment";
@@ -6,6 +7,7 @@ import NewComment from "./NewComment";
 export default function MovieDetails() {
   const movie_context = useContext(movieContext);
   const { movieDetails, getAllComments, movieComments, setMovies, setMoviesCount, payLoading } = movie_context;
+  const navigate = useNavigate();
   const [data, setData] = useState({
     content: "",
     text: "",
@@ -19,14 +21,20 @@ export default function MovieDetails() {
     getAllComments(movieDetails._id);
     // eslint-disable-next-line
   }, []);
-  
+
+  useEffect(()=>{
+    if(data.text){
+      payLoading(data);
+    navigate(`/movies/${data.text}`)
+    }
+  },[data]);
   const handleClick=(value, txt)=>{
     setData({ ...data, text:txt, content:value});
     setMovies([])
     setMoviesCount(0)
-     payLoading(data);
   }
-  console.log(data)
+
+  
   return (
     <div className="container">
       <hr className="text-white" />
@@ -97,7 +105,7 @@ export default function MovieDetails() {
                 <p className="text-white">Cast</p>
                 {movieDetails.cast.map((item, index) => {
                   return (
-                    <button className="mx-1 my-1 btn btn-sm btn-success" key={index} onClick={()=>handleClick(item, 'cast')}>
+                    <button className="mx-1 my-1 btn btn-sm btn-success" key={item + index} onClick={()=>handleClick(item, 'cast')}>
                       {item}
                     </button>
                   );
@@ -109,9 +117,9 @@ export default function MovieDetails() {
                 <p className="text-white">Writers</p>
                 {movieDetails.writers.map((item, index) => {
                   return (
-                    <a href="/" className="mx-1 my-1 btn btn-sm btn-success" key={index}>
+                    <button className="mx-1 my-1 btn btn-sm btn-success" key={item + index}>
                       {item}
-                    </a>
+                    </button>
                   );
                 })}
               </div>

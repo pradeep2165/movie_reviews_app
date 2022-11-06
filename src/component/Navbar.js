@@ -34,7 +34,7 @@ export default function Navbar() {
         <div className="container-fluid">
           <div className="collapse navbar-collapse d-flex flex-column flex-md-row" id="navbarSupportedContent">
             <div className="col-md-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <i className="fa-solid fa-magnifying-glass text-white mx-5"></i>
+              <i className="fa-solid fa-magnifying-glass text-white mx-5 mt-4"/>              
             </div>
             <div className="col-md-4 justify-content-center d-flex">
               <Link to="/" className="text-white fs-1">
