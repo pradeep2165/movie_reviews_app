@@ -19,7 +19,7 @@ const MovieState = (props) => {
   };
 
   console.log(payload);
-  
+
   useEffect(() => {
     getMovieBySearch(payload);
     // eslint-disable-next-line
@@ -31,6 +31,7 @@ const MovieState = (props) => {
     let genres = "";
     let country = "";
     let cast = "";
+    let writers = "";
     if (data.text === "name") {
       name = data.content;
     } else if (data.text === "country") {
@@ -39,6 +40,8 @@ const MovieState = (props) => {
       cast = data.content;
     } else if (data.text === "genres") {
       genres = data.content;
+    } else if (data.text === "writers") {
+      writers = data.content;
     }
     
     const response = await fetch(`${host}/api/movies/allMoviesSearch`, {
@@ -49,6 +52,7 @@ const MovieState = (props) => {
         country: country,
         cast: cast,
         genres: genres,
+        writers:writers,
         page: data.page,
       },
     });

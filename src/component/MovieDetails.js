@@ -28,6 +28,7 @@ export default function MovieDetails() {
     navigate(`/movies/${data.text}`)
     }
   },[data]);
+  
   const handleClick=(value, txt)=>{
     setData({ ...data, text:txt, content:value});
     setMovies([])
@@ -117,7 +118,7 @@ export default function MovieDetails() {
                 <p className="text-white">Writers</p>
                 {movieDetails.writers.map((item, index) => {
                   return (
-                    <button className="mx-1 my-1 btn btn-sm btn-success" key={item + index}>
+                    <button className="mx-1 my-1 btn btn-sm btn-success" key={item + index} onClick={()=>handleClick(item, 'writers')}>
                       {item}
                     </button>
                   );

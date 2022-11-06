@@ -9,6 +9,7 @@ import Login from "./component/Login";
 import Signup from "./component/Signup";
 import Cast from "./component/Cast";
 import Genres from "./component/Genres";
+import Writers from "./component/Writers";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/movies/comments" element={<MovieComments />} />
           <Route exact path="/movies/cast" element={<Cast/>} />
           <Route exact path="/movies/genres" element={<Genres/>} />
+          <Route exact path="/movies/writers" element={<Writers/>} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
         </Routes>

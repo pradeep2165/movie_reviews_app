@@ -3,33 +3,6 @@ const { count } = require("../models/movies");
 const router = express.Router();
 const Movies = require("../models/movies");
 
-// router.get("/allMovies", async (req, res) => {
-//   try {
-//     let page;
-//     if (req.header("page")) {
-//       page = req.header("page");
-//     } else {
-//       page = 0;
-//     }
-//     const movies = await Movies.find()
-//       .sort({ year: -1 })
-//       .limit(20)
-//       .skip(page * 20);
-//     const documentCount = await Movies.aggregate([
-//       {
-//         $match: {},
-//       },
-//       {
-//         $count: "id",
-//       },
-//     ]);
-//     res.json([{ movies }, { documentCount }]);
-//     // res.json(movies);
-//   } catch (error) {
-//     console.error(error.message);
-//     res.status(500).send("Internal Sever Error Occured");
-//   }
-// });
 
 router.get("/allMoviesSearch", async (req, res) => {
   try {
@@ -129,7 +102,6 @@ router.get("/allMoviesSearch", async (req, res) => {
         },
       ]);
     } else if (req.header("cast")) {
-      console.log("cast");
       searchCast = req.header("cast");
       SearchMovies = await Movies.aggregate([
         {
@@ -155,7 +127,33 @@ router.get("/allMoviesSearch", async (req, res) => {
           $count: "id",
         },
       ]);
-    } else {
+    }else if (req.header("writers")) {
+      searchCast = req.header("writers");
+      SearchMovies = await Movies.aggregate([
+        {
+          $match: {
+            writers : {
+              $regex: new RegExp("^.*" + searchCast + ".*", "i"),
+            },
+          },
+        },
+      ])
+        .sort({ year: -1 })
+        .skip(page * 20)
+        .limit(20);
+      documentCount = await Movies.aggregate([
+        {
+          $match: {
+            cast: {
+              $regex: new RegExp("^.*" + searchCast + ".*", "i"),
+            },
+          },
+        },
+        {
+          $count: "id",
+        },
+      ]);
+    }else {
       SearchMovies = await Movies.find()
         .sort({ year: -1 })
         .skip(page * 20)
@@ -178,9 +176,3 @@ router.get("/allMoviesSearch", async (req, res) => {
   }
 });
 module.exports = router;
-// if (req.header("name")) {
-// SearchMovies = await Movies.find({ title: { $in: [/^"titanic"/] } })
-// .sort({ year: -1 })
-// .limit(20)
-// .skip(page * 20);
-// }
