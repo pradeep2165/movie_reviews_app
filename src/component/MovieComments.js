@@ -5,14 +5,14 @@ export default function MovieComments(props) {
   const comments = props.comments;
 
   return (
-    <div className=" my-2 ">
+    <div className=" my-2">
       {comments.map((comment, index) => {
         return (
-          <div key={index} className="bg-white border border-1 border-info mb-1">
-            <div className="d-flex justify-content-between">
-              <div className="d-flex flex-row p-3">
+          <div key={index} className="bg-white border border-1 border-info mb-1 rounded">
+            <div className="d-flex justify-content-start">
+              <div className="d-flex flex-row p-2">
                 <div>
-                  <i className="fa-solid fa-user border border-3 bg-info rounded-circle p-1"></i>
+                  <i className="fa-solid fa-user border border-3 bg-info rounded-circle p-1"/>
                 </div>
                 <div>
                   <span className="mx-1">{comment.name}</span>

@@ -10,12 +10,11 @@ const Cast = () => {
     payLoading({ page, text: "cast" });
     // eslint-disable-next-line
   }, [page]);
-  console.log(movies, moviesCount);
 
   const fetchMoreData = () => {
     setPage((page) => page + 1);
   };
-  return <MovieCard fetchMoreData={fetchMoreData} moviesCount={moviesCount} movies={movies}/>;
+  return <MovieCard fetchMoreData={fetchMoreData} moviesCount={moviesCount} movies={movies} />;
 };
 
 export default Cast;

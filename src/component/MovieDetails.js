@@ -13,7 +13,7 @@ export default function MovieDetails() {
     text: "",
     page: 0,
   });
-  
+
   if (!movieDetails) {
     console.log("not found");
   }
@@ -22,20 +22,20 @@ export default function MovieDetails() {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(()=>{
-    if(data.text){
+  useEffect(() => {
+    if (data.text) {
       payLoading(data);
-    navigate(`/movies/${data.text}`)
+      navigate(`/movies/${data.text}`);
     }
-  },[data]);
-  
-  const handleClick=(value, txt)=>{
-    setData({ ...data, text:txt, content:value});
-    setMovies([])
-    setMoviesCount(0)
-  }
+    // eslint-disable-next-line
+  }, [data]);
 
-  
+  const handleClick = (value, txt) => {
+    setData({ ...data, text: txt, content: value });
+    setMovies([]);
+    setMoviesCount(0);
+  };
+
   return (
     <div className="container">
       <hr className="text-white" />
@@ -47,7 +47,13 @@ export default function MovieDetails() {
             {movieDetails.rated && <span className="rounded-pill bg-warning mx-2 p-1">{movieDetails.rated}</span>}
           </p>
           {movieDetails.directors && <p className="text-center text-white">Directed by: {movieDetails.directors.toString()}</p>}
-          {movieDetails.runtime && <p className="text-white text-center">Runtime: {movieDetails.runtime}</p>}
+
+          {movieDetails.runtime && (
+            <p className="text-white text-center">
+              {movieDetails?.type.charAt(0).toUpperCase()+movieDetails?.type.slice(1)} {movieDetails.runtime} mins
+            </p>
+          )}
+          {movieDetails?.awards?.text && <p className="text-success text-center">Award: {movieDetails?.awards?.text}</p>}
           {movieDetails.fullplot && <p className="bg-dark rounded p-3 text-white ">{movieDetails.fullplot}</p>}
           <div className="">
             <h4 className="text-white mb-3">
@@ -82,19 +88,26 @@ export default function MovieDetails() {
               </div>
             </div>
           )}
-        </div>
 
+          <div className="text-center mt-5">
+            <h1 className="text-light d-inline">Comments</h1>
+            {localStorage.getItem("token") && <NewComment movieid={movieDetails._id} />}
+            {movieComments.length > 0 && <MovieComments comments={movieComments} />}
+            {movieComments.length === 0 && <p className="text-white">No Comment Found</p>}
+          </div>
+        </div>
         {/* --------------------------------------------------------------------------------- */}
         <div className="my-3 col-12 col-md-3 ">
           <div className="text-center">
             <img src={movieDetails.poster} className="card-img-top mb-1" alt="..." />
-            <button className="btn btn-success mt-3">WATCH MOVIE</button>
+            <button className="btn btn-outline-success mt-3">WATCH MOVIE</button>
             {movieDetails.genres && (
               <div className="mt-4">
                 <p className="text-white">Genres</p>
+
                 {movieDetails.genres.map((item, index) => {
                   return (
-                    <button className="mx-1 btn btn-sm btn-dark" key={index} onClick={()=>handleClick(item, 'genres')}>
+                    <button className="mx-1 btn btn-sm btn-outline-info" key={index} onClick={() => handleClick(item, "genres")}>
                       {item}
                     </button>
                   );
@@ -104,9 +117,10 @@ export default function MovieDetails() {
             {movieDetails.cast && (
               <div className="mt-4">
                 <p className="text-white">Cast</p>
+
                 {movieDetails.cast.map((item, index) => {
                   return (
-                    <button className="mx-1 my-1 btn btn-sm btn-success" key={item + index} onClick={()=>handleClick(item, 'cast')}>
+                    <button className="mx-1 my-1 btn btn-sm btn-outline-info" key={item + index} onClick={() => handleClick(item, "cast")}>
                       {item}
                     </button>
                   );
@@ -118,7 +132,7 @@ export default function MovieDetails() {
                 <p className="text-white">Writers</p>
                 {movieDetails.writers.map((item, index) => {
                   return (
-                    <button className="mx-1 my-1 btn btn-sm btn-success" key={item + index} onClick={()=>handleClick(item, 'writers')}>
+                    <button className="mx-1 my-1 btn btn-sm btn-outline-info" key={item + index} onClick={() => handleClick(item, "writers")}>
                       {item}
                     </button>
                   );
@@ -127,12 +141,6 @@ export default function MovieDetails() {
             )}
           </div>
         </div>
-      </div>
-      <div className="text-center">
-        <h1 className="text-success d-inline">Comments</h1>
-        {localStorage.getItem("token") && <NewComment movieid={movieDetails._id} />}
-        {movieComments.length > 0 && <MovieComments comments={movieComments} />}
-        {movieComments.length === 0 && <p className="text-white">No Comment Found</p>}
       </div>
     </div>
   );

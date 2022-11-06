@@ -37,7 +37,7 @@ export default function Navbar() {
               <i className="fa-solid fa-magnifying-glass text-white mx-5 mt-4"/>              
             </div>
             <div className="col-md-4 justify-content-center d-flex">
-              <Link to="/" className="text-white fs-1">
+              <Link to="/" className="text-white fs-1 text-decoration-none">
                 Movies
               </Link>
             </div>

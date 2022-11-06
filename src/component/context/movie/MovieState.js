@@ -15,10 +15,8 @@ const MovieState = (props) => {
   });
 
   const payLoading = async (data) => {
-    setPayload({ ...payload, ...data });    
+    setPayload({ ...payload, ...data });
   };
-
-  console.log(payload);
 
   useEffect(() => {
     getMovieBySearch(payload);
@@ -43,7 +41,7 @@ const MovieState = (props) => {
     } else if (data.text === "writers") {
       writers = data.content;
     }
-    
+
     const response = await fetch(`${host}/api/movies/allMoviesSearch`, {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
       headers: {
@@ -52,19 +50,15 @@ const MovieState = (props) => {
         country: country,
         cast: cast,
         genres: genres,
-        writers:writers,
+        writers: writers,
         page: data.page,
       },
     });
     const json = await response.json();
-    
 
-    setMovies((movies)=> movies.concat(json[0].movies));
+    setMovies((movies) => movies.concat(json[0].movies));
     setMoviesCount(json[1][0].id);
-    console.log(movies)    
   };
-  ;
-
   //Get all comments
   const getAllComments = async (id) => {
     const response = await fetch(`${host}/api/comments/allComments`, {
@@ -106,16 +100,13 @@ const MovieState = (props) => {
         "auth-token": token,
       },
     });
-    const json = await response.json();
-
+    console.log(await(response));
     const newComment = movieComments.filter((comment) => {
       return comment._id !== id;
     });
     setMovieComments(newComment);
   };
-  
-  return (
-    <MovieContext.Provider value={{ movies, setMovies, moviesCount, setMoviesCount, movieDetails, setMovieDetails, getAllComments, movieComments, setMovieComments, addComment, deleteComment, getMovieBySearch, payLoading }}>{props.children}</MovieContext.Provider>
-  );
+
+  return <MovieContext.Provider value={{ movies, setMovies, moviesCount, setMoviesCount, movieDetails, setMovieDetails, getAllComments, movieComments, setMovieComments, addComment, deleteComment, getMovieBySearch, payLoading }}>{props.children}</MovieContext.Provider>;
 };
 export default MovieState;

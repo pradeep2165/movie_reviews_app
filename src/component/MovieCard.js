@@ -8,7 +8,7 @@ const MovieCard= ({movies, fetchMoreData, moviesCount}) => {
     
         <InfiniteScroll dataLength={movies.length} next={fetchMoreData} hasMore={moviesCount !== movies.length} loader={<h4>Loading...</h4>}>
           {!movies.length &&<h1 className="text-center text-white">Sorry Try Something else</h1>}
-          <div className="">
+          <div className="container">
             <div className="row g-1">
               {movies.map((movie, index) => {
                 return (

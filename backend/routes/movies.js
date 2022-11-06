@@ -3,7 +3,6 @@ const { count } = require("../models/movies");
 const router = express.Router();
 const Movies = require("../models/movies");
 
-
 router.get("/allMoviesSearch", async (req, res) => {
   try {
     let movies;
@@ -17,7 +16,6 @@ router.get("/allMoviesSearch", async (req, res) => {
 
     if (req.header("page")) {
       page = req.header("page");
-      console.log(page)
     } else {
       page = 0;
     }
@@ -50,7 +48,6 @@ router.get("/allMoviesSearch", async (req, res) => {
       ]);
     } else if (req.header("genres")) {
       searchGenres = req.header("genres");
-      console.log(searchGenres);
       SearchMovies = await Movies.aggregate([
         {
           $match: {
